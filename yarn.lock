@@ -2099,6 +2099,13 @@
     "object.assign" "^4.1.4"
     "util" "^0.12.5"
 
+"async-validator@~1.8.1":
+  "integrity" "sha512-tXBM+1m056MAX0E8TL2iCjg8WvSyXu0Zc8LNtYqrVeyoL3+esHRZ4SieE9fKQyyU09uONjnMEjrNBMqT0mbvmA=="
+  "resolved" "https://registry.npmjs.org/async-validator/-/async-validator-1.8.5.tgz"
+  "version" "1.8.5"
+  dependencies:
+    "babel-runtime" "6.x"
+
 "async@^2.6.4":
   "integrity" "sha512-mzo5dfJYwAn29PeiJ0zvwTo04zj8HDJj0Mn8TD7sno7q12prdbnasKJHhkm2c1LgrhlJ0teaea8860oxi51mGA=="
   "resolved" "https://registry.npmmirror.com/async/-/async-2.6.4.tgz"
@@ -2136,6 +2143,11 @@
   "version" "1.0.7"
   dependencies:
     "possible-typed-array-names" "^1.0.0"
+
+"babel-helper-vue-jsx-merge-props@^2.0.0":
+  "integrity" "sha512-gsLiKK7Qrb7zYJNgiXKpXblxbV5ffSwR0f5whkPAaBAR4fhi6bwRZxX9wBlIc5M/v8CCkXUbXZL4N/nSE97cqg=="
+  "resolved" "https://registry.npmjs.org/babel-helper-vue-jsx-merge-props/-/babel-helper-vue-jsx-merge-props-2.0.3.tgz"
+  "version" "2.0.3"
 
 "babel-loader@^8.2.2":
   "integrity" "sha512-H8SvsMF+m9t15HNLMipppzkC+Y2Yq+v3SonZyU70RBL/h1gxPkH08Ot8pEE9Z4Kd+czyWJClmFS8qzIP9OZ04Q=="
@@ -2177,6 +2189,14 @@
   "version" "0.6.2"
   dependencies:
     "@babel/helper-define-polyfill-provider" "^0.6.2"
+
+"babel-runtime@6.x":
+  "integrity" "sha512-ITKNuq2wKlW1fJg9sSW52eepoYgZBggvOAHC0u/CYu/qxQ9EVzThCgR69BnSXLHjy2f7SY5zaQ4yt7H9ZVxY2g=="
+  "resolved" "https://registry.npmjs.org/babel-runtime/-/babel-runtime-6.26.0.tgz"
+  "version" "6.26.0"
+  dependencies:
+    "core-js" "^2.4.0"
+    "regenerator-runtime" "^0.11.0"
 
 "balanced-match@^1.0.0":
   "integrity" "sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw=="
@@ -2666,6 +2686,14 @@
   dependencies:
     "mime-db" ">= 1.43.0 < 2"
 
+"compression-webpack-plugin@11.1.0":
+  "integrity" "sha512-zDOQYp10+upzLxW+VRSjEpRRwBXJdsb5lBMlRxx1g8hckIFBpe3DTI0en2w7h+beuq89576RVzfiXrkdPGrHhA=="
+  "resolved" "https://registry.npmjs.org/compression-webpack-plugin/-/compression-webpack-plugin-11.1.0.tgz"
+  "version" "11.1.0"
+  dependencies:
+    "schema-utils" "^4.2.0"
+    "serialize-javascript" "^6.0.2"
+
 "compression@^1.7.4":
   "integrity" "sha512-jaSIDzP9pZVS4ZfQ+TzvtiWhdpFhE2RDHz8QJkpX9SIpLq88VueF5jJw6t+6CUQcAoA6t+x89MLrWAqpfDE8iQ=="
   "resolved" "https://registry.npmmirror.com/compression/-/compression-1.7.4.tgz"
@@ -2763,6 +2791,11 @@
   "version" "3.37.1"
   dependencies:
     "browserslist" "^4.23.0"
+
+"core-js@^2.4.0":
+  "integrity" "sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ=="
+  "resolved" "https://registry.npmjs.org/core-js/-/core-js-2.6.12.tgz"
+  "version" "2.6.12"
 
 "core-js@^3.8.3":
   "integrity" "sha512-Xn6qmxrQZyB0FFY8E3bgRXei3lWDJHhvI+u0q9TKIYM49G8pAr0FgnnrFRAmsbptZL1yxRADVXn+x5AGsbBfyw=="
@@ -3019,7 +3052,7 @@
   dependencies:
     "ms" "2.0.0"
 
-"deepmerge@^1.5.2":
+"deepmerge@^1.2.0", "deepmerge@^1.5.2":
   "integrity" "sha512-95k0GDqvBjZavkuvzx/YqVLv/6YYa17fz6ILMSf7neqQITCPbnfEnQvEgMPNjH4kgobe7+WIL0yJEHku+H3qtQ=="
   "resolved" "https://registry.npmmirror.com/deepmerge/-/deepmerge-1.5.2.tgz"
   "version" "1.5.2"
@@ -3206,6 +3239,18 @@
   "integrity" "sha512-Kaxhu4T7SJGpRQx99tq216gCq2nMxJo+uuT6uzz9l8TVN2stL7M06MIIXAtr9jsrLs2Glflgf2vMQRepxawOdQ=="
   "resolved" "https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.810.tgz"
   "version" "1.4.810"
+
+"element-ui@^2.15.14":
+  "integrity" "sha512-2v9fHL0ZGINotOlRIAJD5YuVB8V7WKxrE9Qy7dXhRipa035+kF7WuU/z+tEmLVPBcJ0zt8mOu1DKpWcVzBK8IA=="
+  "resolved" "https://registry.npmjs.org/element-ui/-/element-ui-2.15.14.tgz"
+  "version" "2.15.14"
+  dependencies:
+    "async-validator" "~1.8.1"
+    "babel-helper-vue-jsx-merge-props" "^2.0.0"
+    "deepmerge" "^1.2.0"
+    "normalize-wheel" "^1.0.1"
+    "resize-observer-polyfill" "^1.5.0"
+    "throttle-debounce" "^1.0.1"
 
 "elliptic@^6.5.3", "elliptic@^6.5.5":
   "integrity" "sha512-7EjbcmUm17NQFu4Pmgmq2olYMj8nwMnpcddByChSUjArp8F5DQWcIcpriwO4ZToLNAJig0yiyjswfyGNje/ixw=="
@@ -4695,6 +4740,11 @@
   "resolved" "https://registry.npmmirror.com/normalize-url/-/normalize-url-6.1.0.tgz"
   "version" "6.1.0"
 
+"normalize-wheel@^1.0.1":
+  "integrity" "sha512-1OnlAPZ3zgrk8B91HyRj+eVv+kS5u+Z0SCsak6Xil/kmgEia50ga7zfkumayonZrImffAxPU/5WcyGhzetHNPA=="
+  "resolved" "https://registry.npmjs.org/normalize-wheel/-/normalize-wheel-1.0.1.tgz"
+  "version" "1.0.1"
+
 "nosleep.js@^0.12.0":
   "integrity" "sha512-9d1HbpKLh3sdWlhXMhU6MMH+wQzKkrgfRkYV0EBdvt99YJfj0ilCJrWRDYG2130Tm4GXbEoTCx5b34JSaP+HhA=="
   "resolved" "https://registry.npmjs.org/nosleep.js/-/nosleep.js-0.12.0.tgz"
@@ -5537,6 +5587,11 @@
   "resolved" "https://registry.npmmirror.com/regenerate/-/regenerate-1.4.2.tgz"
   "version" "1.4.2"
 
+"regenerator-runtime@^0.11.0":
+  "integrity" "sha512-MguG95oij0fC3QV3URf4V2SDYGJhJnJGqvIIgdECeODCT98wSWDAJ94SSuVpYQUoTcGUIL6L4yNB7j1DFFHSBg=="
+  "resolved" "https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz"
+  "version" "0.11.1"
+
 "regenerator-runtime@^0.14.0":
   "integrity" "sha512-dYnhHh0nJoMfnkZs6GmmhFknAGRrLznOu5nc9ML+EJxGvrx6H7teuevqVqCuPcPK//3eDrrjQhehXVx9cnkGdw=="
   "resolved" "https://registry.npmmirror.com/regenerator-runtime/-/regenerator-runtime-0.14.1.tgz"
@@ -5598,6 +5653,11 @@
   "integrity" "sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ=="
   "resolved" "https://registry.npmmirror.com/requires-port/-/requires-port-1.0.0.tgz"
   "version" "1.0.0"
+
+"resize-observer-polyfill@^1.5.0":
+  "integrity" "sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg=="
+  "resolved" "https://registry.npmjs.org/resize-observer-polyfill/-/resize-observer-polyfill-1.5.1.tgz"
+  "version" "1.5.1"
 
 "resolve-from@^4.0.0":
   "integrity" "sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g=="
@@ -5726,6 +5786,16 @@
     "ajv-formats" "^2.1.1"
     "ajv-keywords" "^5.1.0"
 
+"schema-utils@^4.2.0":
+  "integrity" "sha512-L0jRsrPpjdckP3oPug3/VxNKt2trR8TcabrM6FOAAlvC/9Phcmm+cuAgTlxBqdBR1WJx7Naj9WHw+aOmheSVbw=="
+  "resolved" "https://registry.npmjs.org/schema-utils/-/schema-utils-4.2.0.tgz"
+  "version" "4.2.0"
+  dependencies:
+    "@types/json-schema" "^7.0.9"
+    "ajv" "^8.9.0"
+    "ajv-formats" "^2.1.1"
+    "ajv-keywords" "^5.1.0"
+
 "select-hose@^2.0.0":
   "integrity" "sha512-mEugaLK+YfkijB4fx0e6kImuJdCIt2LxCRcbEYPqRGCs4F2ogyfZU5IAZRdjCP8JPq2AtdNoC/Dux63d9Kiryg=="
   "resolved" "https://registry.npmmirror.com/select-hose/-/select-hose-2.0.0.tgz"
@@ -5788,7 +5858,7 @@
     "range-parser" "~1.2.1"
     "statuses" "2.0.1"
 
-"serialize-javascript@^6.0.0", "serialize-javascript@^6.0.1":
+"serialize-javascript@^6.0.0", "serialize-javascript@^6.0.1", "serialize-javascript@^6.0.2":
   "integrity" "sha512-Saa1xPByTTq2gdeFZYLLo+RFE35NHZkAbqZeWNd3BpzppeVisAqpDjcp8dyf6uIvEqJRd46jemmyA4iFIeVk8g=="
   "resolved" "https://registry.npmmirror.com/serialize-javascript/-/serialize-javascript-6.0.2.tgz"
   "version" "6.0.2"
@@ -6156,9 +6226,9 @@
   "resolved" "https://registry.npmmirror.com/tapable/-/tapable-2.2.1.tgz"
   "version" "2.2.1"
 
-"terser-webpack-plugin@^5.1.1", "terser-webpack-plugin@^5.3.10":
+"terser-webpack-plugin@^5.1.1", "terser-webpack-plugin@^5.3.10", "terser-webpack-plugin@5.3.10":
   "integrity" "sha512-BKFPWlPDndPs+NGGCr1U59t0XScL5317Y0UReNrHaw9/FwhPENlq6bfgs+4yPfyP51vqC1bQ4rp1EfXW5ZSH9w=="
-  "resolved" "https://registry.npmmirror.com/terser-webpack-plugin/-/terser-webpack-plugin-5.3.10.tgz"
+  "resolved" "https://registry.npmjs.org/terser-webpack-plugin/-/terser-webpack-plugin-5.3.10.tgz"
   "version" "5.3.10"
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.20"
@@ -6201,6 +6271,11 @@
     "loader-utils" "^2.0.0"
     "neo-async" "^2.6.2"
     "schema-utils" "^3.0.0"
+
+"throttle-debounce@^1.0.1":
+  "integrity" "sha512-XH8UiPCQcWNuk2LYePibW/4qL97+ZQ1AN3FNXwZRBNPPowo/NRU5fAlDCSNBJIYCKbioZfuYtMhG4quqoJhVzg=="
+  "resolved" "https://registry.npmjs.org/throttle-debounce/-/throttle-debounce-1.1.0.tgz"
+  "version" "1.1.0"
 
 "thunky@^1.0.2":
   "integrity" "sha512-eHY7nBftgThBqOyHGVN+l8gF0BucP09fMo0oO/Lb0w1OF80dJv+lDVpXG60WMQvkcxAkNybKsrEIE3ZtKGmPrA=="
@@ -6309,15 +6384,17 @@
   "resolved" "https://registry.npmmirror.com/unicode-property-aliases-ecmascript/-/unicode-property-aliases-ecmascript-2.1.0.tgz"
   "version" "2.1.0"
 
-"unicore-sdk@^1.0.7":
-  "integrity" "sha512-gdopYJdBjizSITcf9SgL6ZaryfiDtzJ4qlDQV1hHINRbw985ZXy6vi35SBMtzN3bf11halipqpL/kLCRDyLzYg=="
-  "resolved" "https://registry.npmjs.org/unicore-sdk/-/unicore-sdk-1.0.7.tgz"
-  "version" "1.0.7"
+"unicore-sdk@^1.2.3":
+  "integrity" "sha512-Kdrqk5kezkK9n4gx5WkErIRWRVVvK59wuH6Dm480OiWz9cMyZb8pMUCESzPa17Hzh9FZCxWnG6efu0yfMrEVvw=="
+  "resolved" "https://registry.npmjs.org/unicore-sdk/-/unicore-sdk-1.2.3.tgz"
+  "version" "1.2.3"
   dependencies:
     "cesium" "1.112.0"
+    "compression-webpack-plugin" "11.1.0"
     "copy-webpack-plugin" "11.0.0"
     "node-polyfill-webpack-plugin" "3.0.0"
     "path" "0.12.7"
+    "terser-webpack-plugin" "5.3.10"
 
 "universalify@^2.0.0":
   "integrity" "sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw=="
@@ -6461,7 +6538,7 @@
   "resolved" "https://registry.npmmirror.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz"
   "version" "1.9.1"
 
-"vue@*", "vue@^2 || ^3.2.13", "vue@^2.6.14":
+"vue@*", "vue@^2 || ^3.2.13", "vue@^2.5.17", "vue@^2.6.14":
   "integrity" "sha512-4gCtFXaAA3zYZdTp5s4Hl2sozuySsgz4jy1EnpBHNfpMa9dK1ZCG7viqBPCwXtmgc8nHqUsAu3G4gtmXkkY3Sw=="
   "resolved" "https://registry.npmmirror.com/vue/-/vue-2.7.16.tgz"
   "version" "2.7.16"
