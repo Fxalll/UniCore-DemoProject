@@ -1,15 +1,21 @@
 <template>
   <div id="unicoreContainer">
+    <!-- HTML 标签测试开始 -->
+    <div id="test">你可以将任意HTML元素固定在某处</div>
+    <div id="test2">这是第二个HTML标签</div>
+    <!-- HTML 标签测试结束 -->
     <!-- 底图分割卡片开始 -->
     <lsSet ref="lsSetId"></lsSet>
     <!-- 底图分割树卡片结束 -->
     <!-- 图层管理树卡片开始 -->
     <lcSet ref="lcSetId"></lcSet>
     <!-- 图层管理树卡片结束 -->
-    <!-- HTML 标签测试开始 -->
-    <div id="test">你可以将任意HTML元素固定在某处</div>
-    <div id="test2">这是第二个HTML标签</div>
-    <!-- HTML 标签测试结束 -->
+    <!-- 属性窗口组件窗口卡片开始 -->
+    <mpInfo ref="mpInfoId"></mpInfo>
+    <!-- 属性窗口组件窗口卡片结束 -->
+    <!-- 模型加载组件窗口卡片开始 -->
+    <lmInfo ref="lmInfoId"></lmInfo>
+    <!-- 模型加载组件窗口卡片结束 -->
   </div>
 </template>
 
@@ -19,11 +25,13 @@ import { config } from 'unicore-sdk/unicore.config'
 import 'unicore-sdk/Widgets/widgets.css'
 import lsSet from '@/components/LayerSplitSet/index.vue'; //底图分割组件
 import lcSet from '@/components/LayerControlSet/index.vue'; //图层管理树组件
+import mpInfo from '@/components/modelPropertyInfo/index'; //属性窗口组件
+import lmInfo from '@/components/loadModelInfo/index'; //模型加载组件
 import * as Cesium from 'cesium'
 
 export default {
   components: {
-    lsSet, lcSet
+    lsSet, lcSet, mpInfo, lmInfo
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
   mounted () {
@@ -50,6 +58,9 @@ export default {
       uniCore.position.buildingPosition(uniCore.viewer, [113.12380548015745, 28.250758831850005, 700], -20, -45, 1);
 
       // 模型示例1
+      // 开始触发加载进度条
+      this.$refs.lmInfoId.loadName = "小别墅1号示例";
+      this.$refs.lmInfoId.setLoadNum();
       const options = {
         id: '小别墅1号示例',
         url: '../../assets/3Dtiles/sample3_方法2_小别墅属性(1)/tileset.json',
@@ -80,6 +91,8 @@ export default {
         }
         this.$refs.lcSetId.nodesList['model'].push(modelOption)
 
+        // 加载下一个进度条
+        this.$refs.lmInfoId.setNewData('小别墅2号示例');
       })
 
       // 模型示例2
@@ -98,6 +111,9 @@ export default {
           tileset: cityModel
         }
         this.$refs.lcSetId.nodesList['model'].push(modelOption)
+
+        // 结束进度条显示
+        this.$refs.lmInfoId.setFinish();
       })
 
       // 开启右键菜单、点击高亮、属性property
@@ -109,7 +125,7 @@ export default {
         id: '小别墅2号示例',
         url: '../../assets/3Dtiles/sample3_方法2_小别墅属性(1)/tileset.json',
         propertysURL: '../../assets/3Dtiles/sample3_方法2_小别墅属性(1)/01 小别墅.json'
-      }], (property) => console.log(property), () => console.log("BIM"), () => console.log("GIS"));
+      }], (property) => this.$refs.mpInfoId.showProps(property), (pickObj) => console.log(pickObj), () => document.getElementById("slider").style.display = "none", () => document.getElementById("slider").style.display = "block");
 
 
 

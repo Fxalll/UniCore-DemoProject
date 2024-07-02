@@ -70,7 +70,7 @@ export default {
   background-color: #d3d3d3;
   width: 5px;
   height: 100%;
-  z-index: 9999;
+  z-index: 1;
 }
 
 #slider:hover {
