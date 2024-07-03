@@ -4,6 +4,9 @@
     <div id="test">你可以将任意HTML元素固定在某处</div>
     <div id="test2">这是第二个HTML标签</div>
     <!-- HTML 标签测试结束 -->
+    <!-- BIM视图盒子组件开始 -->
+    <bcSet ref="bcSetId"></bcSet>
+    <!-- BIM视图盒子组件结束 -->
     <!-- 底图分割卡片开始 -->
     <lsSet ref="lsSetId"></lsSet>
     <!-- 底图分割树卡片结束 -->
@@ -27,11 +30,12 @@ import lsSet from '@/components/LayerSplitSet/index.vue'; //底图分割组件
 import lcSet from '@/components/LayerControlSet/index.vue'; //图层管理树组件
 import mpInfo from '@/components/modelPropertyInfo/index'; //属性窗口组件
 import lmInfo from '@/components/loadModelInfo/index'; //模型加载组件
+import bcSet from '@/components/BimCubeSet/index.vue'; //BIM视图盒子组件
 import * as Cesium from 'cesium'
 
 export default {
   components: {
-    lsSet, lcSet, mpInfo, lmInfo
+    lsSet, lcSet, mpInfo, lmInfo, bcSet
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
   mounted () {
@@ -125,7 +129,7 @@ export default {
         id: '小别墅2号示例',
         url: '../../assets/3Dtiles/sample3_方法2_小别墅属性(1)/tileset.json',
         propertysURL: '../../assets/3Dtiles/sample3_方法2_小别墅属性(1)/01 小别墅.json'
-      }], (property) => this.$refs.mpInfoId.showProps(property), (pickObj) => console.log(pickObj), () => document.getElementById("slider").style.display = "none", () => document.getElementById("slider").style.display = "block");
+      }], (property) => this.$refs.mpInfoId.showProps(property), (pickObj) => console.log(pickObj), (pickObj) => { document.getElementById("slider").style.display = "none"; this.$refs.bcSetId.show(uniCore, uniCore.position.cartesian3_2axis(pickObj.tileset.boundingSphere.center), pickObj.tileset.boundingSphere.radius * 3) }, () => { document.getElementById("slider").style.display = "block"; this.$refs.bcSetId.hide() });
 
 
 
@@ -149,7 +153,7 @@ export default {
       uniCore.tip.createHtmlTip("test2", [113.12374548015745, 28.256150218457687, 50], false)
 
 
-
+      // 多底图分屏，载入 openstreetmap 底图
       this.$refs.lsSetId.init(new Cesium.UrlTemplateImageryProvider({
         url: "https://tile.openstreetmap.bzh/br/{z}/{x}/{y}.png",
         subdomains: ["a", "b", "c", "d"],
