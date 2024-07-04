@@ -2,7 +2,14 @@
   <div>
     <!-- GIS / BIM 切换组件 -->
     <el-card class="box-card">
-      <div class="title">GIS / BIM 切换组件</div>
+      <div
+        id="move-layer"
+        class="title"
+        @mousedown="mousedown"
+        @mouseup="mouseup"
+      >
+        GIS / BIM 切换组件
+      </div>
       <hr />
       <div class="button" @click="gbSwitch(false)">切换 GIS</div>
       <div class="button" @click="gbSwitch()">切换 BIM</div>
@@ -51,7 +58,44 @@ export default {
       // 打开视角锁定
       uniCore.position.lockTo(uniCore.viewer, bool, this.lockAxiz);
 
+    },
+
+    /**
+ * 鼠标与窗口拖动相关
+ */
+    mousedown (event, id) {
+      if (document.elementFromPoint(event.clientX, event.clientY).id === 'move-layer') {
+        this.selectElement = document.elementFromPoint(event.clientX, event.clientY).parentNode.parentNode;
+        document.querySelectorAll('.box-card').forEach((e) => {
+          e.style.zIndex = 1000;
+        })
+        this.selectElement.style.zIndex = 1001;
+        var div1 = this.selectElement
+        this.selectElement.style.cursor = 'move'
+        this.isDowm = true
+        var distanceX = event.clientX - this.selectElement.offsetLeft
+        var distanceY = event.clientY - this.selectElement.offsetTop
+        console.log(div1);
+        document.onmousemove = function (ev) {
+          var oevent = ev || event
+          div1.style.left = oevent.clientX - distanceX + 'px'
+          div1.style.top = oevent.clientY - distanceY + 'px'
+        }
+        document.onmouseup = function () {
+          document.onmousemove = null
+          document.onmouseup = null
+          div1.style.cursor = 'default'
+        }
+      }
+
+    },
+    //鼠标抬起
+    mouseup () {
+      this.isMove = false;
+      this.selectElement = "null"
     }
+
+
 
   }
 }
@@ -75,14 +119,19 @@ export default {
   margin-bottom: 12px;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
+  transition: none;
+  user-select: none;
 
   .title {
     font-size: 18px;
     font-weight: bold;
-    text-shadow: 1px 1px #000;
     color: #fefeff;
     display: block;
+    margin-left: 24px;
     margin-bottom: 10px;
+    user-select: none;
+    overflow: hidden;
+    cursor: move;
   }
 
   hr {
