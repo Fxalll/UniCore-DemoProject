@@ -1,16 +1,11 @@
-<!--
- * @Author: 卢佳康 ljk3079960656@outlook.com
- * @Date: 2024-07-11 14:48:56
- * @LastEditors: 卢佳康 ljk3079960656@outlook.com
- * @LastEditTime: 2024-07-11 14:49:05
- * @FilePath: \vue-uni-demo\src\views\fastproject\localComponentsExample\GisBimSwitch.vue
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 <template>
   <div id="unicoreContainer">
     <!-- GIS / BIM 切换组件窗口卡片开始 -->
     <gbSet ref="gbSetId"></gbSet>
     <!-- GIS / BIM 切换组件窗口卡片结束 -->
+    <!-- BIM视图盒子组件开始 -->
+    <bcSet ref="bcSetId"></bcSet>
+    <!-- BIM视图盒子组件结束 -->
   </div>
 </template>
 
@@ -19,19 +14,16 @@ import { UniCore } from 'unicore-sdk'
 import { config } from 'unicore-sdk/unicore.config'
 import 'unicore-sdk/Widgets/widgets.css'
 import gbSet from '@/components/GisBimSwitch/index'; //GIS/BIM切换组件
-
+import bcSet from '@/components/BimCubeSet/index.vue'; //BIM视图盒子组件
 
 export default {
 
   components: {
-    gbSet
+    gbSet, bcSet
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
   mounted () {
     this.init();
-
-    // 初始化GIS/BIM所需focus的模型
-    this.$refs.gbSetId.init('小别墅1号示例', [113.12098820449636, 28.256150218457687, 130]);
   },
 
   // 方法集合
@@ -55,6 +47,12 @@ export default {
       // 视角初始化
       uniCore.position.buildingPosition(viewer, [113.12380548015745, 28.250758831850005, 700], -20, -45, 1);
 
+      // 初始化视图盒子方法
+      this.$refs.gbSetId.init(
+        (pickObj, boundingSphere) => this.$refs.bcSetId.show(uniCore, uniCore.position.cartesian3_2axis(boundingSphere.center), boundingSphere.radius * 3),
+        () => this.$refs.bcSetId.hide()
+      );
+
       /**
        * 小别墅1号示例
        */
@@ -65,7 +63,7 @@ export default {
       }
       //加载3dtiles
       uniCore.model.createTileset(options.url, options).then(cityLeft => {
-        uniCore.model.changeModelPos(cityLeft, [113.12098820449636, 28.256150218457687, 130], [0, 0, 0], [23.8, 23.8, 23.8])
+        uniCore.model.changeModelPos(cityLeft, [113.12098820449636, 28.256150218457687, 130], [0, 0, 0])
 
         // 开启右键菜单、点击高亮、属性property
         uniCore.interact.setTilesRightClickMenu([{
@@ -80,14 +78,22 @@ export default {
       /**
          * 小别墅2号示例
          */
-      options = {
-        id: '小别墅2号示例',
-        url: '../../assets/3Dtiles/sample3_方法2_小别墅属性(1)/tileset.json'
-      }
-      //加载3dtiles
-      uniCore.model.createTileset(options.url, options).then(cityLeft => {
-        uniCore.model.changeModelPos(cityLeft, [113.12098820449636, 28.266150218457687, 130], [0, 0, 0], [23.8, 23.8, 23.8])
+      uniCore.model.addGltf({
+        lon: 0,
+        lat: 0,
+        height: 0
+      }, {
+        id: "小别墅2号示例",
+        name: null,
+        url: '../../../assets/gltf/小别墅.glb',
+        scale: 1.0,
+        property: null
+      }).then(cityModel => {
+        uniCore.model.changeModelPos(cityModel, [113.12098820449636, 28.257150218457687, 130], [90, 0, 0])
       })
+
+      // 开启glTF模型右键交互
+      uniCore.interact.setGltfRightClickMenu((property) => console.log(property));
     }
   }
 

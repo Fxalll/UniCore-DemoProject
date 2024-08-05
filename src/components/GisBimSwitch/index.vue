@@ -12,7 +12,7 @@
       </div>
       <hr />
       <div class="button" @click="gbSwitch(false)">切换 GIS</div>
-      <div class="button" @click="gbSwitch()">切换 BIM</div>
+      <div class="button" @click="gbSwitch(true)">切换 BIM</div>
     </el-card>
   </div>
 </template>
@@ -23,40 +23,109 @@ import * as Cesium from 'cesium'
 export default {
 
   methods: {
-    init (modelId, lockAxiz) {
-      this.modelId = modelId;
-      this.lockAxiz = lockAxiz;
+    init (bimRecallFunc = null, gisRecallFunc = null) {
+      this.bimRecallFunc = bimRecallFunc;
+      this.gisRecallFunc = gisRecallFunc;
     },
+
     gbSwitch (bool = true) {
+
+      let that = this;
+
+      const handler = new Cesium.ScreenSpaceEventHandler(window.viewer.scene.canvas);
 
       // 开启地下模式
       uniCore.model.undergroundMode(bool);
 
       if (bool) {
-        uniCore.viewer.scene.backgroundColor = Cesium.Color.fromCssColorString("#b9d3ee");
-        uniCore.viewer.terrainProvider = null;
+        this.$message(
+          { message: "请点击所需切换到BIM场景的模型。" }
+        )
+        handler.setInputAction(function (e) {
+          const pickObj = viewer.scene.pick(e.position);
+          if (!!pickObj) {
+            const modelId = pickObj.id?.id === undefined ? pickObj.tileset.debugPickedTile.id : pickObj.id?.id;
+            const lockBoundingSphere = pickObj?.primitive.boundingSphere === undefined ? pickObj.tileset.boundingSphere : pickObj.primitive.boundingSphere;
+            const lockAxiz = uniCore.position.cartesian3_2axis(lockBoundingSphere.center);
 
-        // 只留该模型显示，其他全部隐藏
-        uniCore.model.setPrimitivesShow(this.modelId, false, false)
+            that.$message(
+              { message: `已点击到模型：${modelId}` }
+            )
 
-        // // 信息树只留该模型
-        // window.nodesList = window.nodesList?.filter(e =>
-        //   e.id === this.modelId
-        // )
+            // 触发回调函数
+            if (!!that.bimRecallFunc) {
+              that.bimRecallFunc(pickObj, lockBoundingSphere);
+            }
 
+            window.viewer.scene.backgroundColor = Cesium.Color.fromCssColorString("#b9d3ee");
+            window.viewer.terrainProvider = null;
+
+            // 只留该模型显示，其他全部隐藏
+            uniCore.model.setPrimitivesShow(modelId, false, false)
+
+            // 隐藏所有HTML标签
+            try {
+              window.htmlTipList && window.htmlTipList.forEach(e => {
+                document.getElementById(e).style.display = "none";
+              })
+            } catch (error) {
+
+            }
+
+            // 隐藏所有标签
+            // 记住先前的状态
+            window.tipBeforeSet = []
+            window.viewer.scene.primitives._primitives.forEach((e) => {
+              try {
+                for (let i of e._labels) {
+                  window.tipBeforeSet.push(i.show)
+                  i.show = false;
+                }
+              } catch (error) { }
+            })
+
+            // 打开视角锁定
+            uniCore.position.lockTo(window.viewer, bool, lockAxiz, -45, -30, pickObj.primitive.boundingSphere.radius * 3);
+
+            handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK)//移除事件
+
+          }
+
+        }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
       } else {
-        uniCore.viewer.scene.backgroundColor = null;
-        uniCore.viewer.terrainProvider = window.terrainProvider;
+        window.viewer.scene.backgroundColor = null;
+        window.viewer.terrainProvider = window.terrainProvider;
+
+        // 触发回调函数
+        if (!!that.gisRecallFunc) {
+          that.gisRecallFunc();
+        }
 
         // 还原所有模型显示
         uniCore.model.setPrimitivesShow('', true)
 
-        // // 信息树还原所有模型
-        // window.nodesList = window.nodesListSaved;
+        // 还原所有HTML标签
+        try {
+          window.htmlTipList && window.htmlTipList.forEach(e => {
+            document.getElementById(e).style.display = "block";
+          })
+        } catch (error) {
+
+        }
+
+        // 还原所有标签
+        window.viewer.scene.primitives._primitives.forEach((e) => {
+          try {
+            e._labels.forEach((ele, index) => {
+              ele.show = window.tipBeforeSet[index]
+            })
+          } catch (error) { }
+        })
+
+        // 关闭视角锁定
+        uniCore.position.lockTo(uniCore.viewer, bool, [0, 0]);
 
       }
-      // 打开视角锁定
-      uniCore.position.lockTo(uniCore.viewer, bool, this.lockAxiz);
 
     },
 
