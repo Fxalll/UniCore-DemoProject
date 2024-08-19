@@ -133,7 +133,6 @@ export default {
       }], (property) => this.$refs.mpInfoId.showProps(property), (pickObj) => console.log(pickObj), (pickObj) => { document.getElementById("slider").style.display = "none"; this.$refs.bcSetId.show(uniCore, uniCore.position.cartesian3_2axis(pickObj.tileset.boundingSphere.center), pickObj.tileset.boundingSphere.radius * 3) }, () => { document.getElementById("slider").style.display = "block"; this.$refs.bcSetId.hide() });
 
 
-
       // 加入墙体图元 primitives
       uniCore.model.paintWall("墙体测试", [[113.12380548015745, 28.260758831850005], [113.12380548015745, 28.240758831850005]], 500, 100, "#e46962")
       uniCore.model.paintLine("线条测试", [[113.12123548015745, 28.280758831850005], [113.12380548015745, 28.240758831850005], [113.12070548015745, 28.240758831850005]], 75, "#c3e88d", 5)
