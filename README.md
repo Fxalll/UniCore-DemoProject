@@ -53,12 +53,53 @@ UniCore 是一个专为 GIS（地理信息系统）和 BIM（建筑信息模型�
 ## 项目结构
 
 ```
-src/
-├── components/           # 可复用的 UI 组件
-├── views/               # 页面视图
-│   └── fastproject/     # 各类功能示例
-├── assets/              # 静态资源
-└── utils/               # 工具函数
+.
+├── public/                     # 静态资源目录
+│   ├── assets/                 # 3D 模型和其他资产文件
+│   │   ├── 3Dtiles/            # 3D Tiles 模型文件
+│   │   ├── gltf/               # glTF/GLB 模型文件
+│   │   └── img/                # 图片资源
+│   └── static/                 # 静态文件
+│       ├── css/                # CSS 样式文件
+│       ├── extend/             # 扩展资源
+│       └── img/                # 图片资源
+├── src/                        # 源代码目录
+│   ├── assets/                 # 应用资源文件
+│   │   └── logo.png            # 应用图标
+│   ├── components/             # 可复用的 UI 组件
+│   │   ├── AdjustModelSet/     # 模型调整组件
+│   │   ├── BimCubeSet/         # BIM 立方体组件
+│   │   ├── CreateTourSet/      # 漫游创建组件
+│   │   ├── GisBimSwitch/       # GIS/BIM 切换组件
+│   │   ├── LayerControlSet/    # 图层控制组件
+│   │   ├── LayerSplitSet/      # 图层分割组件
+│   │   ├── ModelCutSet/        # 模型切割组件
+│   │   ├── ModelTreeSet/       # 模型树组件
+│   │   ├── WanderMode/         # 漫游模式组件
+│   │   ├── loadModelInfo/      # 模型加载信息组件
+│   │   ├── modelPropertyInfo/  # 模型属性信息组件
+│   │   └── showModelSet/       # 模型展示组件
+│   ├── views/                  # 页面视图
+│   │   ├── HomeView.vue        # 主页视图
+│   │   └── fastproject/        # 各类功能示例
+│   │       ├── DemoShow.vue    # 主演示页面
+│   │       ├── localComponentsExample/    # 本地组件示例
+│   │       ├── modelAddExample/           # 模型添加示例
+│   │       ├── modelAnimationExample/     # 模型动画示例
+│   │       ├── modelChangeExample/        # 模型变换示例
+│   │       ├── otherMethodExample/        # 其他方法示例
+│   │       ├── positionExample/           # 位置相关示例
+│   │       ├── sceneOperationExample/     # 场景操作示例
+│   │       └── shaderExample/             # 着色器示例
+│   ├── router/                 # 路由配置
+│   │   └── index.js
+│   ├── utils/                  # 工具函数
+│   ├── shaders/                # 着色器文件
+│   ├── App.vue                 # 根组件
+│   └── main.js                 # 应用入口文件
+├── package.json                # 项目配置文件
+├── vue.config.js               # Vue 配置文件
+└── README.md                   # 项目说明文档
 ```
 
 ## 快速开始
