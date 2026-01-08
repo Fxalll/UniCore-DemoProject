@@ -119,10 +119,10 @@ export default {
       xAngle: 0,
       yAngle: 0,
       zAngle: 0,
-      selectedNodeName: "",
+      selectedNodeName: "1大臂",
       currentModel: null,
       currentNodes: {},
-      currentTween: null, // 存储当前运行的 tween 实例
+      currentTween: [], // 存储所有正在运行的 tween 实例数组，支持并行旋转
       isAnimating: false, // 控制动画循环的标志
       animationFrameId: null, // 存储 requestAnimationFrame 的 ID
       // 初始化参数
@@ -216,9 +216,11 @@ export default {
      */
     destroy () {
       // 停止所有正在运行的 tween
-      if (this.currentTween) {
-        this.currentTween.stop();
-        this.currentTween = null;
+      if (this.currentTween && this.currentTween.length > 0) {
+        this.currentTween.forEach(tween => {
+          tween.stop();
+        });
+        this.currentTween = [];
       }
       // 清除所有 tween
       TWEEN.removeAll();
@@ -270,77 +272,84 @@ export default {
     },
 
     /**
-     * 通用旋转步进方法（带动画）
+     * 通用旋转步进方法（带动画，支持并行）
      * @param {Number} step - 旋转步进角度
      * @param {String} nodeName - 可选，指定要旋转的节点名称，不指定则使用当前选中节点
+     * @returns {Promise} 返回 Promise，在动画完成时 resolve
      */
     rotateByStep (step, nodeName = null) {
-      const targetNodeName = nodeName || this.selectedNodeName;
-      const node = this.currentNodes[targetNodeName];
+      return new Promise((resolve, reject) => {
+        const targetNodeName = nodeName || this.selectedNodeName;
+        const node = this.currentNodes[targetNodeName];
 
-      if (node) {
-        // 获取当前选中节点的索引
-        const nodeIndex = this.nodeNames.indexOf(targetNodeName);
-        if (nodeIndex !== -1 && nodeIndex < this.nodeAxes.length) {
-          // 根据节点的自由度轴进行旋转
-          const axis = this.nodeAxes[nodeIndex];
+        if (node) {
+          // 获取当前选中节点的索引
+          const nodeIndex = this.nodeNames.indexOf(targetNodeName);
+          if (nodeIndex !== -1 && nodeIndex < this.nodeAxes.length) {
+            // 根据节点的自由度轴进行旋转
+            const axis = this.nodeAxes[nodeIndex];
 
-          // 获取当前角度
-          const currentAngle = this.nodeAngleMap[targetNodeName] || 0;
-          const targetAngle = currentAngle + step;
+            // 获取当前角度
+            const currentAngle = this.nodeAngleMap[targetNodeName] || 0;
+            const targetAngle = currentAngle + step;
 
-          // 如果有正在运行的 tween，先停止它
-          if (this.currentTween) {
-            this.currentTween.stop();
+            // 使用 TWEEN 创建动画
+            const tweenObj = { angle: currentAngle };
+
+            const tween = new TWEEN.Tween(tweenObj)
+              .to({ angle: targetAngle }, 500) // 500ms 动画时长
+              .easing(TWEEN.Easing.Quadratic.InOut) // 使用缓动函数
+              .onUpdate(() => {
+                // 计算增量（步长）
+                const stepAngle = tweenObj.angle - this.nodeAngleMap[targetNodeName];
+
+                // 根据轴应用旋转
+                switch (axis) {
+                  case 'x':
+                    this.xAngle = tweenObj.angle;
+                    this.rotateX(node, stepAngle);
+                    break;
+                  case 'y':
+                    this.yAngle = tweenObj.angle;
+                    this.rotateY(node, stepAngle);
+                    break;
+                  case 'z':
+                    this.zAngle = tweenObj.angle;
+                    this.rotateZ(node, stepAngle);
+                    break;
+                  default:
+                    console.warn(`未知的旋转轴: ${axis}，节点: ${targetNodeName}`);
+                }
+
+                // 更新节点角度映射
+                this.nodeAngleMap[targetNodeName] = tweenObj.angle;
+
+                // 触发角度更新事件
+                this.$emit('angle-updated', targetNodeName, tweenObj.angle);
+              })
+              .onComplete(() => {
+                // 从数组中移除已完成的 tween
+                const index = this.currentTween.indexOf(tween);
+                if (index > -1) {
+                  this.currentTween.splice(index, 1);
+                }
+                this.$emit('rotation-complete', targetNodeName, targetAngle);
+                resolve(targetAngle); // 动画完成时 resolve
+              })
+              .start();
+
+            // 将 tween 添加到数组中
+            this.currentTween.push(tween);
+
+          } else {
+            console.warn(`节点 ${targetNodeName} 没有对应的旋转轴定义`);
+            reject(new Error(`节点 ${targetNodeName} 没有对应的旋转轴定义`));
           }
-
-          // 使用 TWEEN 创建动画
-          const tweenObj = { angle: currentAngle };
-
-          this.currentTween = new TWEEN.Tween(tweenObj)
-            .to({ angle: targetAngle }, 500) // 500ms 动画时长
-            .easing(TWEEN.Easing.Quadratic.InOut) // 使用缓动函数
-            .onUpdate(() => {
-              // 计算增量（步长）
-              const stepAngle = tweenObj.angle - this.nodeAngleMap[targetNodeName];
-
-              // 根据轴应用旋转
-              switch (axis) {
-                case 'x':
-                  this.xAngle = tweenObj.angle;
-                  this.rotateX(node, stepAngle);
-                  break;
-                case 'y':
-                  this.yAngle = tweenObj.angle;
-                  this.rotateY(node, stepAngle);
-                  break;
-                case 'z':
-                  this.zAngle = tweenObj.angle;
-                  this.rotateZ(node, stepAngle);
-                  break;
-                default:
-                  console.warn(`未知的旋转轴: ${axis}，节点: ${targetNodeName}`);
-              }
-
-              // 更新节点角度映射
-              this.nodeAngleMap[targetNodeName] = tweenObj.angle;
-
-              // 触发角度更新事件
-              this.$emit('angle-updated', targetNodeName, tweenObj.angle);
-            })
-            .onComplete(() => {
-              this.currentTween = null;
-              this.$emit('rotation-complete', targetNodeName, targetAngle);
-            })
-            .start();
-
-
         } else {
-          console.warn(`节点 ${targetNodeName} 没有对应的旋转轴定义`);
+          console.warn(`节点 ${targetNodeName} 不存在`);
+          reject(new Error(`节点 ${targetNodeName} 不存在`));
         }
-      } else {
-        console.warn(`节点 ${targetNodeName} 不存在`);
-      }
+      });
     },
 
     /**
@@ -584,7 +593,9 @@ export default {
     animate (time) {
       this.animationFrameId = requestAnimationFrame(this.animate);
       if (this.currentTween) {
-        this.currentTween.update(time);
+        this.currentTween.forEach((e) => {
+          e.update(time);
+        })
       }
     }
   }
